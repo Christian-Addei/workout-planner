@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Planner</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <h1>Workout Planner</h1>
+    <div class="container">
+        <div>
+            <h1>Exercises</h1>
+
+            <form ng-submit="add()">
+                <input type="text" ng-model="input">
+                <input type="submit" class="button" value="Enter">
+            </form>
+
+            <div class="cat-list" ng-repeat="x in list track by x.id">
+                <label class="container">
+                    <input type="checkbox" ng-model="x.checked">
+                    <span class="checkmark"></span>
+                    <span ng-bind="x.exercise"></span>
+                </label>&nbsp;
+                <button class="tag-button" ng-click="x.showTagBox = !x.showTagBox">Tag</button>&nbsp;
+
+                <div ng-show="x.showTagBox">
+                    <form ng-submit="addToCat(x.exercise, selectedCat)">
+                        <select ng-model="selectedCat" ng-options="y.id as y.category for y in cat">
+                            <option value="{{y.id}}" ng-repeat="y in cat track by y.id">{{y.category}}</option>
+                        </select>
+                        <input type="submit" class="button" value="Add to Category"
+                            ng-click="x.showTagBox = !x.showTagBox">
+                    </form>
+                </div>
+                <button class="button" ng-click="delete($index)">Delete</button>
+            </div>
+        </div>
+
+        <div>
+            <h1>Splits</h1>
+
+            <form ng-submit="addCat()">
+                <input type="text" ng-model="cat_input">
+                <input type="submit" class="button" value="Enter">
+            </form>
+            <div class="exercise-list" ng-repeat="x in cat track by x.id">
+                <div class="cat-list">
+                    <span ng-bind="x.category"></span>&nbsp;
+                    <button class="bucket-item" ng-click="deleteCat($index)">Delete</button>
+                </div>
+                <div class="exincatlist" ng-repeat="(i, y) in x.bucket track by i">
+                    <label class="container">
+                        <input type="checkbox" ng-model="y.checked">
+                        <span class="checkmark"></span>
+                        <span ng-bind="y.ex"></span>
+                    </label>&nbsp;
+                    <button class="button" ng-click="deleteFromCat(i, x.id)">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script>
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function ($scope) {
+        $scope.list = [];
+        $scope.cat = [];
+
+        if (localStorage.getItem("array_categories")) {
+            $scope.cat = JSON.parse(localStorage.getItem("array_categories"));
+        }
+        if (localStorage.getItem("array_exercises")) {
+            $scope.list = JSON.parse(localStorage.getItem("array_exercises"));
+        }
+
+        $scope.add = function () {
+            if ($scope.input) {
+                $scope.list.push({ id: Date.now(), exercise: $scope.input, checked: false, showTagBox: false });
+                localStorage.setItem("array_exercises", JSON.stringify($scope.list));
+                $scope.input = "";
+            }
+        };
+        $scope.delete = function (index) {
+            $scope.list.splice(index, 1);
+            localStorage.setItem("array_exercises", JSON.stringify($scope.list));
+        };
+        $scope.addCat = function () {
+            if ($scope.cat_input) {
+                $scope.cat.push({ id: Date.now(), category: $scope.cat_input });
+                localStorage.setItem("array_categories", JSON.stringify($scope.cat));
+                $scope.cat_input = "";
+            }
+        };
+        $scope.deleteCat = function (index) {
+            $scope.cat.splice(index, 1);
+            localStorage.setItem("array_categories", JSON.stringify($scope.cat));
+        };
+        $scope.addToCat = function (exercise, catId) {
+            let category = $scope.cat.find(c => c.id == Number(catId));
+            if (category) {
+                if (!category.bucket) {
+                    category.bucket = [];
+                }
+                category.bucket.push({ ex: exercise });
+                localStorage.setItem("array_categories", JSON.stringify($scope.cat));
+            }
+        };
+        $scope.deleteFromCat = function (index, catId) {
+            let category = $scope.cat.find(c => c.id == Number(catId));
+            if (category && category.bucket && category.bucket.length > index) {
+                category.bucket.splice(index, 1);
+                localStorage.setItem("array_categories", JSON.stringify($scope.cat));
+            }
+        }
+    });
+</script>
+
+</html>

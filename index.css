@@ -1,0 +1,162 @@
+body {
+    background-color: lightgray;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+button {
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: red;
+    font-size: 16px;
+    padding: 6px 12px;
+    transition-property: background-color, border, color;
+    transition-duration: 0.25s
+}
+
+input[type=submit] {
+    background-color: white;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: teal;
+    font-size: 16px;
+    padding: 6px 12px;
+    transition-property: background-color, border, color;
+    transition-duration: 0.25s
+}
+
+button:hover {
+    background-color: red;
+    border: 2px solid red;
+    color: white;
+}
+
+input[type=submit]:hover {
+    background-color: teal;
+    border: 2px solid teal;
+    color: white;
+}
+
+form {
+    padding: 5px;
+}
+
+h1 {
+    color: teal;
+    text-align: center;
+}
+
+input {
+    border: 2px solid teal;
+    border-radius: 10px;
+    color: teal;
+    font-size: 16px;
+    padding: 6px 12px;
+}
+
+label.container {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+select {
+    border: 2px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 8px;
+}
+
+.bucket-item {
+    align-items: center;
+    display: flex;
+}
+
+.cat-list {
+    background-color: lightgray;
+    border-color: white;
+    border-radius: 10px;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    font-size: 24px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.checkmark {
+    background-color: white;
+    border-radius: 25px;
+    height: 25px;
+    width: 25px;
+}
+
+.checkmark:hover {
+    opacity: 50%;
+}
+
+.container input:checked~.checkmark {
+    background-color: gold;
+}
+
+.container {
+    background-color: lightgray;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: auto auto;
+    padding: 10px;
+}
+
+.container>div {
+    background-color: white;
+    border-radius: 20px;
+    padding: 50px;
+    text-align: center;
+}
+
+.container input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.exercise-list {
+    background-color: lightgray;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    padding: 5px;
+
+    /* &:nth-child(2n-1) {
+        background-color: white;
+    } */
+}
+
+.exincatlist {
+    align-items: center;
+    background-color: rgba(0, 128, 128, 0.75);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    font-size: 24px;
+    margin-bottom: 5px;
+    padding: 10px;
+
+    &:nth-child(2n-1) {
+        background-color: rgba(0, 128, 128, 0.5);
+    }
+}
+
+.tag-button {
+    border-color: white;
+    color: teal;
+    transition-property: background-color, border, color;
+    transition-duration: 0.25s
+}
+
+.tag-button:hover {
+    background-color: teal;
+    border-color: teal;
+    color: white;
+}
